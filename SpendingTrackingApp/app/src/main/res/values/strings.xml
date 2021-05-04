@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Spending Tracking App</string>
+    <string name="skip">Skip</string>
+    <string name="get_started">Get Started</string>
+    <string name="hello">Hello</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="your_name">Your Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+
+</resources>
