@@ -1,17 +1,20 @@
 package com.tohandesign.spendingtrackingapp
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import com.tohandesign.spendingtrackingapp.Database.Spending
+import com.tohandesign.spendingtrackingapp.Database.SpendingListAdapter
+import com.tohandesign.spendingtrackingapp.Database.SpendingRoomDB
 
 class HomeActivity : AppCompatActivity()  {
 
@@ -19,14 +22,35 @@ class HomeActivity : AppCompatActivity()  {
     val KEY_NAME = "NAME"
     val KEY_GENDER = "GENDER"
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         setName()
 
+        val spendings:List<Spending>
+        val db:SpendingRoomDB= Room.databaseBuilder(this,SpendingRoomDB::class.java,"notes")
+            .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
+            .build()
+        //spendings=db.SpendingDao().readAllData()
+
+
+
+        val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerview.layoutManager=LinearLayoutManager(this)
+        //recyclerview.adapter=SpendingListAdapter(spendings,this@HomeActivity)
+
+        findViewById<ExtendedFloatingActionButton>(R.id.add_fab).setOnClickListener{
+            val intent = Intent(this, AddSpendingActivity::class.java)
+            startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE)
+        }
+
+
 
     }
+
 
 
     fun setName() {
@@ -69,6 +93,10 @@ class HomeActivity : AppCompatActivity()  {
             mBuilder.dismiss()
 
         }
+    }
+
+    companion object {
+        private const val NEW_NOTE_ACTIVITY_REQUEST_CODE = 1
     }
 
 

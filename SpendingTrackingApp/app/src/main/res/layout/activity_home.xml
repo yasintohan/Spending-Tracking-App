@@ -45,7 +45,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="48dp"
-                android:text="Mr Yasins"
+                android:text="Mr Yasin"
                 android:textColor="@color/white"
                 android:textSize="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -90,7 +90,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/white"
-        android:text="TL"
+        android:text="@string/tl"
         android:textColor="@color/custom_rose"
         app:cornerRadius="16dp"
         app:layout_constraintEnd_toStartOf="@+id/sterlinBtn"
@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/white"
-        android:text="Sterlin"
+        android:text="@string/sterlin"
         android:textColor="@color/custom_charch"
         app:cornerRadius="16dp"
         app:layout_constraintEnd_toStartOf="@+id/euroBtn"
@@ -116,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/white"
-        android:text="Euro"
+        android:text="@string/euro"
         android:textColor="@color/custom_charch"
         app:cornerRadius="16dp"
         app:layout_constraintEnd_toStartOf="@+id/dolarBtn"
@@ -130,7 +130,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/white"
-        android:text="Dollar"
+        android:text="@string/dollar"
         android:textColor="@color/custom_charch"
         app:cornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,65 +138,27 @@
         app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="3dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/tlBtn"
+        tools:listitem="@layout/recycler_item" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/app_name"
+        android:text="Add"
+        app:icon="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tlBtn">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <ImageView
-                android:id="@+id/itemIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="32dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_receipt"
-                app:tint="@color/custom_rose"/>
-
-            <TextView
-                android:id="@+id/itemDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Home Deposit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="16dp"/>
-
-            <TextView
-                android:id="@+id/itemCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="60 TL"
-                android:textSize="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textStyle="bold"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
+        android:backgroundTint="@color/custom_rose"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"/>
 
 
 
