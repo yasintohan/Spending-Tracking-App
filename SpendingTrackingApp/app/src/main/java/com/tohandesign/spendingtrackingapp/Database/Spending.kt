@@ -18,7 +18,7 @@ data class Spending(
     val type: Int,
 
     @ColumnInfo(name="currency")
-    val currency: Int,
+    val currency: String,
 
     @PrimaryKey(autoGenerate = true)
     val spendingId: Int = 0

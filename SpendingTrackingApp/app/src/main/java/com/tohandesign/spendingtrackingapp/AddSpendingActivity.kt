@@ -49,12 +49,12 @@ class AddSpendingActivity : AppCompatActivity() {
                 R.id.rent -> type = 2
                 R.id.other -> type = 0
             }
-            var currency: Int = 1
+            var currency: String = "USD"
             when (currencyRadioGroup.checkedRadioButtonId) {
-                R.id.tl -> currency = 1
-                R.id.dolar -> currency = 2
-                R.id.euro -> currency = 3
-                R.id.sterlin -> currency = 4
+                R.id.tl -> currency = "TRY"
+                R.id.dolar -> currency = "USD"
+                R.id.euro -> currency = "EUR"
+                R.id.sterlin -> currency = "GBP"
             }
 
 

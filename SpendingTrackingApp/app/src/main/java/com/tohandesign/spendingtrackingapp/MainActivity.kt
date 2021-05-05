@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButton
 import com.tohandesign.spendingtrackingapp.Onboarding.OnBoardingAdapter
 import com.tohandesign.spendingtrackingapp.Onboarding.OnBoardingItem
+import com.tohandesign.spendingtrackingapp.Retrofit.CurrencyApi
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         setOnboardingItems()
         setupIndicators()
         setCurrentIndicator(0)
+        var currencyApi = CurrencyApi(this)
+        currencyApi.getData()
     }
 
     private fun setOnboardingItems() {

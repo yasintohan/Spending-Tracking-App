@@ -10,12 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.tohandesign.spendingtrackingapp.Currency.CurrencyConverter
 import com.tohandesign.spendingtrackingapp.R
 import kotlinx.android.synthetic.main.activity_add_spending.view.*
 import kotlinx.android.synthetic.main.recycler_item.view.*
 import org.w3c.dom.Text
 
-class SpendingListAdapter():
+class SpendingListAdapter(val context: Context, val base: String):
     RecyclerView.Adapter<SpendingListAdapter.ViewHolder>() {
 
     private var spendingList = emptyList<Spending>()
@@ -30,9 +31,12 @@ class SpendingListAdapter():
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val currencyConverter = CurrencyConverter(context)
+
         val currentSpending = spendingList[position]
         holder.itemView.itemDesc.text = currentSpending.description.toString()
-        holder.itemView.itemCount.text = currentSpending.cost.toString()
+        holder.itemView.itemCount.text = String.format("%.2f", currencyConverter.convert(currentSpending.currency, base, currentSpending.cost)) + " " +  base
         holder.itemView.itemIcon.setImageResource(
                 when(currentSpending.type){
                     0 -> R.drawable.ic_shopping

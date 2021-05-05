@@ -5,21 +5,26 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
-import com.tohandesign.spendingtrackingapp.Database.Spending
 import com.tohandesign.spendingtrackingapp.Database.SpendingListAdapter
-import com.tohandesign.spendingtrackingapp.Database.SpendingRoomDB
 import com.tohandesign.spendingtrackingapp.Database.SpendingViewModel
+import com.tohandesign.spendingtrackingapp.Retrofit.CurrencyApi
+import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity()  {
+
+class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     val PREFS_FILENAME = "com.tohandesign.spendingtrackingapp"
     val KEY_NAME = "NAME"
@@ -28,49 +33,62 @@ class HomeActivity : AppCompatActivity()  {
 
     private lateinit var mSpendingViewModel: SpendingViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         setName()
+        setRecyclerView("TRY")
 
-        val adapter = SpendingListAdapter()
+/*
+        tlBtn.setOnClickListener{
+            setRecyclerView("TRY")
+        }
+        sterlinBtn.setOnClickListener{
+            setRecyclerView("GBP")
+        }
+        euroBtn.setOnClickListener{
+            setRecyclerView("EUR")
+        }
+        dolarBtn.setOnClickListener{
+            setRecyclerView("USD")
+        }
+*/
+    }
+
+    fun setRecyclerView(base: String) {
+        val adapter = SpendingListAdapter(this, base)
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         recyclerview.adapter = adapter
-        recyclerview.layoutManager=LinearLayoutManager(this)
+        recyclerview.layoutManager = LinearLayoutManager(this)
 
         mSpendingViewModel = ViewModelProvider(this).get(SpendingViewModel::class.java)
-        mSpendingViewModel.readAllData.observe(this, Observer {spending ->
+        mSpendingViewModel.readAllData.observe(this, Observer { spending ->
             adapter.setData(spending)
 
         })
 
-        findViewById<ExtendedFloatingActionButton>(R.id.add_fab).setOnClickListener{
+        findViewById<ExtendedFloatingActionButton>(R.id.add_fab).setOnClickListener {
             val intent = Intent(this, AddSpendingActivity::class.java)
             startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE)
         }
 
-
-
     }
-
-
 
     fun setName() {
         val prefences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         val nameText: TextView = findViewById<TextView>(R.id.nameText)
-        if(prefences.getInt(KEY_GENDER, 0) == 1) {
-            nameText.text = "Mr. " + prefences.getString(KEY_NAME,"Yasin")
-        } else if(prefences.getInt(KEY_GENDER, 0) == 2)  {
-            nameText.text = "Mrs. " + prefences.getString(KEY_NAME,"Merve")
+        if (prefences.getInt(KEY_GENDER, 0) == 1) {
+            nameText.text = "Mr. " + prefences.getString(KEY_NAME, "Yasin")
+        } else if (prefences.getInt(KEY_GENDER, 0) == 2) {
+            nameText.text = "Mrs. " + prefences.getString(KEY_NAME, "Merve")
         } else {
-            nameText.text = prefences.getString(KEY_NAME,"Yasin")
+            nameText.text = prefences.getString(KEY_NAME, "Yasin")
         }
-        nameText.setOnClickListener { onLogin() }
+        nameText.setOnClickListener { setNameDialog() }
     }
 
-    fun onLogin() {
+    fun setNameDialog() {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.change_name_dialog, null)
         val mBuilder = AlertDialog.Builder(this).setView(mDialogView).show()
 
@@ -78,13 +96,14 @@ class HomeActivity : AppCompatActivity()  {
         val editor = prefences.edit()
 
         val nameText: TextInputEditText = mDialogView.findViewById(R.id.edittext)
+        nameText.setText(prefences.getString(KEY_NAME, "Yasin"))
         val radioGroup: RadioGroup = mDialogView.findViewById(R.id.radioGroup)
 
         mDialogView.findViewById<Button>(R.id.saveButton).setOnClickListener {
             editor.putString(KEY_NAME, nameText.text.toString())
-            if(radioGroup.checkedRadioButtonId == R.id.male)
+            if (radioGroup.checkedRadioButtonId == R.id.male)
                 editor.putInt(KEY_GENDER, 1)
-            else if(radioGroup.checkedRadioButtonId == R.id.female)
+            else if (radioGroup.checkedRadioButtonId == R.id.female)
                 editor.putInt(KEY_GENDER, 2)
             else
                 editor.putInt(KEY_GENDER, 0)
@@ -99,10 +118,50 @@ class HomeActivity : AppCompatActivity()  {
         }
     }
 
+
     companion object {
         private const val NEW_NOTE_ACTIVITY_REQUEST_CODE = 1
     }
 
+    fun changeBase(view: View) {
+        when (view.id) {
+            R.id.tlBtn -> {
+                tlBtn.setTextColor(resources.getColor(R.color.custom_rose))
+                sterlinBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                dolarBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                euroBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                setRecyclerView("TRY")}
+            R.id.sterlinBtn -> {
+                tlBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                sterlinBtn.setTextColor(resources.getColor(R.color.custom_rose))
+                dolarBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                euroBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                setRecyclerView("GBP")}
+            R.id.dolarBtn -> {
+                tlBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                sterlinBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                dolarBtn.setTextColor(resources.getColor(R.color.custom_rose))
+                euroBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                setRecyclerView("USD")}
+            R.id.euroBtn -> {
+                tlBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                sterlinBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                dolarBtn.setTextColor(resources.getColor(R.color.custom_charch))
+                euroBtn.setTextColor(resources.getColor(R.color.custom_rose))
+                setRecyclerView("EUR")}
 
+        }
+
+    }
+
+    override fun onClick(v: View?) {
+        if (v != null) {
+            when (v.id) {
+                //kodlar
+
+            }
+        }
+
+
+    }
 }
-
