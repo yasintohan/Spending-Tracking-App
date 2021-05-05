@@ -7,6 +7,8 @@
     tools:context=".HomeActivity">
 
 
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"

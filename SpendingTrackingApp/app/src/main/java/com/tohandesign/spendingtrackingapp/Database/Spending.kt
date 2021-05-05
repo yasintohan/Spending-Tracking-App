@@ -15,10 +15,10 @@ data class Spending(
     val cost: Double,
 
     @ColumnInfo(name="type")
-    val type: String,
+    val type: Int,
 
     @ColumnInfo(name="currency")
-    val currency: String,
+    val currency: Int,
 
     @PrimaryKey(autoGenerate = true)
     val spendingId: Int = 0

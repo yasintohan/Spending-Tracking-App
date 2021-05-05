@@ -18,5 +18,6 @@
     <string name="dollar">Dollar</string>
     <string name="euro">Euro</string>
     <string name="sterlin">Sterlin</string>
+    <string name="add_spending">Add Spending</string>
 
 </resources>

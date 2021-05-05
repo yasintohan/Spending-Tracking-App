@@ -3,7 +3,6 @@ package com.tohandesign.spendingtrackingapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -12,6 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButton
+import com.tohandesign.spendingtrackingapp.Onboarding.OnBoardingAdapter
+import com.tohandesign.spendingtrackingapp.Onboarding.OnBoardingItem
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,23 +34,23 @@ class MainActivity : AppCompatActivity() {
 
 
         onBoardingAdapter = OnBoardingAdapter(
-            listOf(
-                OnBoardingItem(
-                    onboardingImage = R.drawable.onboarding_1,
-                    title =  "Deneme title 1",
-                    description =  "deneme description 1"
-                ),
-                OnBoardingItem(
-                    onboardingImage = R.drawable.onboarding_2,
-                    title =  "Deneme title 2",
-                    description =  "deneme description 2"
-                ),
-                OnBoardingItem(
-                    onboardingImage = R.drawable.onboarding_3,
-                    title =  "Deneme title 3",
-                    description =  "deneme description 3"
+                listOf(
+                        OnBoardingItem(
+                                onboardingImage = R.drawable.onboarding_1,
+                                title = "Deneme title 1",
+                                description = "deneme description 1"
+                        ),
+                        OnBoardingItem(
+                                onboardingImage = R.drawable.onboarding_2,
+                                title = "Deneme title 2",
+                                description = "deneme description 2"
+                        ),
+                        OnBoardingItem(
+                                onboardingImage = R.drawable.onboarding_3,
+                                title = "Deneme title 3",
+                                description = "deneme description 3"
+                        )
                 )
-            )
         )
 
         val onboardingvp = findViewById<ViewPager2>(R.id.onBoarding)

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.RadioGroup
+import android.widget.Switch
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
@@ -14,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.tohandesign.spendingtrackingapp.Database.Spending
 import com.tohandesign.spendingtrackingapp.Database.SpendingRoomDB
 import com.tohandesign.spendingtrackingapp.Database.SpendingViewModel
+import kotlinx.android.synthetic.main.activity_add_spending.view.*
 
 class AddSpendingActivity : AppCompatActivity() {
 
@@ -27,26 +29,6 @@ class AddSpendingActivity : AppCompatActivity() {
         mSpendingViewModel = ViewModelProvider(this).get(SpendingViewModel::class.java)
 
 
-
-/*
-        val db:SpendingRoomDB= Room.databaseBuilder(applicationContext,SpendingRoomDB::class.java,"Spending")
-            .allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
-            .build()
-        findViewById<Button>(R.id.addButton).setOnClickListener {
-            val description = descText.text.toString()
-            Toast.makeText(this, description, Toast.LENGTH_SHORT).show()
-            val cost = costText.text.toString()
-            val type = typeRadioGroup.checkedRadioButtonId.toString()
-            Toast.makeText(this, type, Toast.LENGTH_SHORT).show()
-            val currency = currencyRadioGroup.checkedRadioButtonId.toString()
-            Toast.makeText(this, currency, Toast.LENGTH_SHORT).show()
-            val spending:Spending= Spending(description,123.0,type, currency)
-            //db.SpendingDao().insert(spending)
-           // startActivity(Intent(this@AddSpendingActivity,HomeActivity::class.java))
-           // finish()
-        }
-*/
         findViewById<Button>(R.id.addButton).setOnClickListener {
             insertDataToDatabase()
         }
@@ -61,8 +43,28 @@ class AddSpendingActivity : AppCompatActivity() {
         val currencyRadioGroup: RadioGroup = findViewById(R.id.currencyRadioGroup)
 
         if(inputCheck(descText.text.toString(), costText.text.toString(), typeRadioGroup.checkedRadioButtonId.toString(), currencyRadioGroup.checkedRadioButtonId.toString())) {
-            val spending:Spending= Spending(descText.text.toString(),123.0,typeRadioGroup.checkedRadioButtonId.toString(), currencyRadioGroup.checkedRadioButtonId.toString())
+            var type: Int = 0
+            when (typeRadioGroup.checkedRadioButtonId) {
+                R.id.bill -> type = 1
+                R.id.rent -> type = 2
+                R.id.other -> type = 0
+            }
+            var currency: Int = 1
+            when (currencyRadioGroup.checkedRadioButtonId) {
+                R.id.tl -> currency = 1
+                R.id.dolar -> currency = 2
+                R.id.euro -> currency = 3
+                R.id.sterlin -> currency = 4
+            }
+
+
+            val spending:Spending= Spending(descText.text.toString(),costText.text.toString().toDouble(),type, currency)
             mSpendingViewModel.addSpending(spending)
+            Toast.makeText(this, "Succesfully Added", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivityForResult(intent, 1)
+        } else {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -70,12 +72,6 @@ class AddSpendingActivity : AppCompatActivity() {
         return !(TextUtils.isEmpty(description) && TextUtils.isEmpty(cost) && TextUtils.isEmpty(type) && TextUtils.isEmpty(currency))
     }
 
-    companion object {
-        const val NEW_SPENDING = "new_spending"
-        const val NEW_COST = "new_cost"
-        const val NEW_TYPE = "new_type"
-        const val NEW_CURRENCY = "new_currency"
-    }
 
     }
 
