@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class SpendingViewModel(application: Application): AndroidViewModel(application) {
 
-    private val readAllData: LiveData<List<Spending>>
+    val readAllData: LiveData<List<Spending>>
     private val repository: SpendingRepository
 
     init {

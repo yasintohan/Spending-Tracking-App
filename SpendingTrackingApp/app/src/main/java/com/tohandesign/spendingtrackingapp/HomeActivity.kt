@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -15,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.tohandesign.spendingtrackingapp.Database.Spending
 import com.tohandesign.spendingtrackingapp.Database.SpendingListAdapter
 import com.tohandesign.spendingtrackingapp.Database.SpendingRoomDB
+import com.tohandesign.spendingtrackingapp.Database.SpendingViewModel
 
 class HomeActivity : AppCompatActivity()  {
 
@@ -23,24 +26,25 @@ class HomeActivity : AppCompatActivity()  {
     val KEY_GENDER = "GENDER"
 
 
+    private lateinit var mSpendingViewModel: SpendingViewModel
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         setName()
 
-        val spendings:List<Spending>
-        val db:SpendingRoomDB= Room.databaseBuilder(this,SpendingRoomDB::class.java,"notes")
-            .allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
-            .build()
-        //spendings=db.SpendingDao().readAllData()
-
-
-
+        val adapter = SpendingListAdapter()
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerview.adapter = adapter
         recyclerview.layoutManager=LinearLayoutManager(this)
-        //recyclerview.adapter=SpendingListAdapter(spendings,this@HomeActivity)
+
+        mSpendingViewModel = ViewModelProvider(this).get(SpendingViewModel::class.java)
+        mSpendingViewModel.readAllData.observe(this, Observer {spending ->
+            adapter.setData(spending)
+
+        })
 
         findViewById<ExtendedFloatingActionButton>(R.id.add_fab).setOnClickListener{
             val intent = Intent(this, AddSpendingActivity::class.java)
