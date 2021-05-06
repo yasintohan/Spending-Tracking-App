@@ -3,26 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/homeActivity">
+    app:startDestination="@id/mainFragment">
 
-    <activity
-        android:id="@+id/homeActivity"
-        android:name="com.tohandesign.spendingtrackingapp.HomeActivity"
-        android:label="activity_home"
-        tools:layout="@layout/activity_home" />
-    <activity
-        android:id="@+id/splashActivity"
-        android:name="com.tohandesign.spendingtrackingapp.SplashActivity"
-        android:label="activity_splash"
-        tools:layout="@layout/activity_splash" />
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.tohandesign.spendingtrackingapp.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
-    <activity
-        android:id="@+id/addSpendingActivity"
-        android:name="com.tohandesign.spendingtrackingapp.AddSpendingActivity"
-        android:label="activity_add_spending"
-        tools:layout="@layout/activity_add_spending" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.tohandesign.spendingtrackingapp.Fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_deleteFragment"
+            app:destination="@id/deleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.tohandesign.spendingtrackingapp.Fragments.AddFragment"
+        android:label="fragment_add"
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/action_addFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deleteFragment"
+        android:name="com.tohandesign.spendingtrackingapp.Fragments.DeleteFragment"
+        android:label="fragment_delete"
+        tools:layout="@layout/fragment_delete" >
+        <action
+            android:id="@+id/action_deleteFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
