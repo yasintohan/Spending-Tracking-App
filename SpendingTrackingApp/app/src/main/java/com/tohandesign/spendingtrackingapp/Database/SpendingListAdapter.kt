@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.tohandesign.spendingtrackingapp.Currency.CurrencyConverter
+import com.tohandesign.spendingtrackingapp.Fragments.DeleteFragmentDirections
+import com.tohandesign.spendingtrackingapp.Fragments.MainFragmentDirections
 import com.tohandesign.spendingtrackingapp.R
 import com.tohandesign.spendingtrackingapp.databinding.RecyclerItemBinding
 
@@ -55,8 +58,11 @@ class SpendingListAdapter(val context: Context, val base: String):
         }
         ), android.graphics.PorterDuff.Mode.SRC_IN)
 
+        holder.binding.recyclerItem.setOnClickListener{
+            val action = MainFragmentDirections.actionMainFragmentToDeleteFragment(currentSpending)
+            holder.itemView.findNavController().navigate(action)
+        }
 
-        
 
     }
 

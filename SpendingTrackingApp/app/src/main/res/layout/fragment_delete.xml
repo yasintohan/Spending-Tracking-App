@@ -7,7 +7,7 @@
     tools:context=".Fragments.DeleteFragment">
 
     <ImageView
-        android:id="@+id/backIcon"
+        android:id="@+id/deletebackIcon"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="32dp"
@@ -54,6 +54,7 @@
         android:textStyle="bold"/>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/deleteBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"

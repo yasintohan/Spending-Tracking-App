@@ -9,4 +9,8 @@ class SpendingRepository(private val spendingDao: SpendingDao) {
         spendingDao.insert(spending)
     }
 
+    suspend fun deleteSpending(spending: Spending){
+        spendingDao.deleteSpending(spending)
+    }
+
 }
