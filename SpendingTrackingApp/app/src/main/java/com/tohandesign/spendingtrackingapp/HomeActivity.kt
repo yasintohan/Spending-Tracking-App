@@ -20,6 +20,8 @@ import com.tohandesign.spendingtrackingapp.Currency.CurrencyConverter
 import com.tohandesign.spendingtrackingapp.Database.Spending
 import com.tohandesign.spendingtrackingapp.Database.SpendingListAdapter
 import com.tohandesign.spendingtrackingapp.Database.SpendingViewModel
+import com.tohandesign.spendingtrackingapp.Network.NetworkConnection
+import com.tohandesign.spendingtrackingapp.Retrofit.CurrencyApi
 import kotlinx.android.synthetic.main.activity_home.*
 
 
@@ -36,6 +38,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+
+        CheckConnection()
         setName()
         setRecyclerView("TRY")
 
@@ -44,8 +48,23 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    fun CheckConnection(){
+        val networkConnection = NetworkConnection(applicationContext)
+        networkConnection.observe(this, Observer { isconnected ->
+            if (isconnected){
+                var currencyApi = CurrencyApi(this)
+                currencyApi.getData()
+                Log.v("MainActivity", "Connected")
+            } else {
+                Log.v("MainActivity", "Not Connected")
+            }
+        })
+    }
 
-    fun setRecyclerView(base: String) {
+
+    private fun setRecyclerView(base: String) {
+
+
         val adapter = SpendingListAdapter(this, base)
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         recyclerview.adapter = adapter
@@ -68,12 +87,13 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<ExtendedFloatingActionButton>(R.id.add_fab).setOnClickListener {
             val intent = Intent(this, AddSpendingActivity::class.java)
             startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE)
+            finish()
         }
 
 
     }
 
-    fun setName() {
+    private fun setName() {
         val prefences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         val nameText: TextView = findViewById<TextView>(R.id.nameText)
         if (prefences.getInt(KEY_GENDER, 0) == 1) {
@@ -86,7 +106,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         nameText.setOnClickListener { setNameDialog() }
     }
 
-    fun setNameDialog() {
+    private fun setNameDialog() {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.change_name_dialog, null)
         val mBuilder = AlertDialog.Builder(this).setView(mDialogView).show()
 

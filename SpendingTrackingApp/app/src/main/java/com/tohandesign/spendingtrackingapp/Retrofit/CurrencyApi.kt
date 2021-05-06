@@ -15,6 +15,7 @@ class CurrencyApi(val context: Context)  {
 
     val PREFS_FILENAME = "com.tohandesign.spendingtrackingapp"
     val KEY_BASE = "BASE"
+    val KEY_EUR = "EUR"
     val KEY_TRY = "TRY"
     val KEY_USD = "USD"
     val KEY_GBP = "GBP"
@@ -33,14 +34,13 @@ class CurrencyApi(val context: Context)  {
 
         val service = retrofit.create(CurrencyService::class.java)
 
-        val call = service.getMoviesList("2000")
+        val call = service.getCurrencyList("EUR")
         call.enqueue(object : Callback<CurrencyModel> {
             override fun onResponse(call: Call<CurrencyModel>, response: Response<CurrencyModel>) {
                 if (response.code() == 200) {
                     val currencyModel = response.body()!!
-                    Log.v("MainActivity",  currencyModel.base)
-                    Log.v("MainActivity",  currencyModel.rates.USD.toString())
                     editor.putString(KEY_BASE, currencyModel.base)
+                    editor.putFloat(KEY_EUR, 1.0F)
                     editor.putFloat(KEY_TRY, currencyModel.rates.TRY.toString().toFloat())
                     editor.putFloat(KEY_USD, currencyModel.rates.USD.toString().toFloat())
                     editor.putFloat(KEY_GBP, currencyModel.rates.GBP.toString().toFloat())

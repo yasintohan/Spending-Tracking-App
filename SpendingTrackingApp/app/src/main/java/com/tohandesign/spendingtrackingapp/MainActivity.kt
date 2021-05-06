@@ -1,5 +1,6 @@
 package com.tohandesign.spendingtrackingapp
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,7 +19,7 @@ import com.tohandesign.spendingtrackingapp.Retrofit.CurrencyApi
 
 class MainActivity : AppCompatActivity() {
 
-
+    val PREFS_FILENAME = "com.tohandesign.spendingtrackingapp"
 
     private lateinit var onBoardingAdapter: OnBoardingAdapter
     private lateinit var indicatorsContainer: LinearLayout
@@ -29,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         setOnboardingItems()
         setupIndicators()
         setCurrentIndicator(0)
-        var currencyApi = CurrencyApi(this)
-        currencyApi.getData()
+
+
     }
 
     private fun setOnboardingItems() {
@@ -128,6 +129,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToHome(){
+        val prefences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+        val editor = prefences.edit()
+        editor.putBoolean("IS_FIRST", false)
+        editor.apply()
         startActivity(Intent(applicationContext, HomeActivity::class.java))
         finish()
     }
