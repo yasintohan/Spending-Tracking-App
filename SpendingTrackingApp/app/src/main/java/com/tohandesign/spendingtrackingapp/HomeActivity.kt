@@ -4,23 +4,22 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.tohandesign.spendingtrackingapp.Currency.CurrencyConverter
+import com.tohandesign.spendingtrackingapp.Database.Spending
 import com.tohandesign.spendingtrackingapp.Database.SpendingListAdapter
 import com.tohandesign.spendingtrackingapp.Database.SpendingViewModel
-import com.tohandesign.spendingtrackingapp.Retrofit.CurrencyApi
 import kotlinx.android.synthetic.main.activity_home.*
 
 
@@ -40,21 +39,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         setName()
         setRecyclerView("TRY")
 
-/*
-        tlBtn.setOnClickListener{
-            setRecyclerView("TRY")
-        }
-        sterlinBtn.setOnClickListener{
-            setRecyclerView("GBP")
-        }
-        euroBtn.setOnClickListener{
-            setRecyclerView("EUR")
-        }
-        dolarBtn.setOnClickListener{
-            setRecyclerView("USD")
-        }
-*/
+
+
+
     }
+
 
     fun setRecyclerView(base: String) {
         val adapter = SpendingListAdapter(this, base)
@@ -62,16 +51,25 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(this)
 
+        val currencyConverter = CurrencyConverter(this)
+
+
         mSpendingViewModel = ViewModelProvider(this).get(SpendingViewModel::class.java)
         mSpendingViewModel.readAllData.observe(this, Observer { spending ->
             adapter.setData(spending)
+            var value:Double = 0.0;
+            for(spent in spending) {
+                value += currencyConverter.convert(spent.currency, base, spent.cost)
 
+            }
+            SpendingCost.setText(String.format("%.2f", value) + " " + base)
         })
 
         findViewById<ExtendedFloatingActionButton>(R.id.add_fab).setOnClickListener {
             val intent = Intent(this, AddSpendingActivity::class.java)
             startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE)
         }
+
 
     }
 

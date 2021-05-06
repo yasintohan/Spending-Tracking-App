@@ -40,18 +40,18 @@ class MainActivity : AppCompatActivity() {
                 listOf(
                         OnBoardingItem(
                                 onboardingImage = R.drawable.onboarding_1,
-                                title = "Deneme title 1",
-                                description = "deneme description 1"
+                                title = "Track Your Spending",
+                                description = "You can easily track your expenses from a single platform."
                         ),
                         OnBoardingItem(
                                 onboardingImage = R.drawable.onboarding_2,
-                                title = "Deneme title 2",
-                                description = "deneme description 2"
+                                title = "Choose Your Spending",
+                                description = "You can record either invoice, rent or all other expenses."
                         ),
                         OnBoardingItem(
                                 onboardingImage = R.drawable.onboarding_3,
-                                title = "Deneme title 3",
-                                description = "deneme description 3"
+                                title = "Different Currencies",
+                                description = "You can add any currency you want and convert between currencies."
                         )
                 )
         )

@@ -1,6 +1,11 @@
 package com.tohandesign.spendingtrackingapp.Currency
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
+import com.tohandesign.spendingtrackingapp.Database.Spending
+import com.tohandesign.spendingtrackingapp.HomeActivity
 
 class CurrencyConverter(val context: Context) {
 
@@ -33,6 +38,9 @@ class CurrencyConverter(val context: Context) {
 
         return eurValue*targetValueRate
     }
+
+
+
 
 
 
