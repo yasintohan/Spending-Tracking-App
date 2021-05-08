@@ -1,13 +1,11 @@
 #  Spending Tracking Mobile App <img src="https://img.shields.io/badge/-Kotlin-7c6fe1?style=flat&logo=kotlin&logoColor=white">
 
-<img src = "/images/7.png" height="50%" width="50%"><img src = "/images/8.png" height="50%" width="50%">
-<br/>
-<img src = "/images/1.png" height="50%" width="50%"><img src = "/images/2.png" height="50%" width="50%">
-<br/>
-<img src = "/images/3.png" height="50%" width="50%"><img src = "/images/5.png" height="50%" width="50%">
-<br/>
-<img src = "/images/4.png" height="50%" width="50%"><img src = "/images/6.png" height="50%" width="50%">
-<br/>
+<img src = "/images/spending-banner.jpg" height="100%" width="100%">
+
+# Screenshots
+
+<img src = "/images/7.png" height="25%" width="25%"><img src = "/images/8.png" height="25%" width="25%"><img src = "/images/1.png" height="25%" width="25%"><img src = "/images/2.png" height="25%" width="25%"><img src = "/images/3.png" height="25%" width="25%"><img src = "/images/5.png" height="25%" width="25%"><img src = "/images/4.png" height="25%" width="25%"><img src = "/images/6.png" height="25%" width="25%">
+
 
 # ENG
 
